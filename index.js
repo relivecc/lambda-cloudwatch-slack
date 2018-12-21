@@ -7,9 +7,10 @@ var hookUrl;
 
 var baseSlackMessage = {}
 
-var postMessage = function(message, callback) {
+var postMessage = function(message, callback) {  
   var body = JSON.stringify(message);
   var options = url.parse(hookUrl);
+
   options.method = 'POST';
   options.headers = {
     'Content-Type': 'application/json',
@@ -247,8 +248,10 @@ var handleCloudWatch = function(event, context) {
       color = "good";
   }
 
-  var slackMessage = {
-    text: "*" + subject + "*",
+  var text = newState === "OK" ? "💚 ✅ 👍 *" + subject + "* 👍 ✅ 💚" : "<!everyone> 🚨 🔔 ⏰  *" + subject + "* ⏰ 🔔 🚨" 
+
+  var slackMessage = {        
+    text,
     attachments: [
       {
         "color": color,
@@ -353,7 +356,7 @@ var handleCatchAll = function(event, context) {
   return _.merge(slackMessage, baseSlackMessage);
 }
 
-var processEvent = function(event, context) {
+var processEvent = function(event, context) {  
   console.log("sns received:" + JSON.stringify(event, null, 2));
   var slackMessage = null;
   var eventSubscriptionArn = event.Records[0].EventSubscriptionArn;
@@ -434,3 +437,4 @@ exports.handler = function(event, context) {
     context.fail('hook url has not been set.');
   }
 };
+
