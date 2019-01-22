@@ -311,19 +311,11 @@ var handleCloudWatch = function(event, context) {
           { title: "Alarm Description", value: alarmDescription, short: false },
           {
             title: "Trigger",
-            value:
-              trigger.Statistic +
-              " " +
-              metricName +
-              " " +
-              trigger.ComparisonOperator +
-              " " +
-              trigger.Threshold +
-              " for " +
-              trigger.EvaluationPeriods +
-              " period(s) of " +
-              trigger.Period +
-              " seconds.",
+            value: `${trigger.Statistic} ${metricName} ${
+              trigger.ComparisonOperator
+            } ${trigger.Threshold} for ${
+              trigger.EvaluationPeriods
+            } period(s) of ${trigger.Period} seconds.`,
             short: false
           },
           { title: "Old State", value: oldState, short: true },
